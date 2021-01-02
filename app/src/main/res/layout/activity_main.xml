@@ -50,8 +50,8 @@
             android:id="@+id/circle"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/color_bg"
             android:onClick="Pencil"
@@ -63,26 +63,40 @@
             android:id="@+id/rectangle"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/color_bg"
             android:onClick="Pencil"
             android:src="@drawable/icons8_rectangle_50"
             app:layout_constraintStart_toEndOf="@+id/circle"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/text"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/color_bg"
+            android:onClick="Pencil"
+            android:src="@drawable/ic_baseline_text_fields_24"
+            app:layout_constraintStart_toEndOf="@+id/rectangle"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="save"
-            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
             android:backgroundTint="#aaaaaa"
             android:onClick="Save"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toEndOf="@+id/rectangle"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:text="save"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/text"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/eraser"

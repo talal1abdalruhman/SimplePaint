@@ -20,6 +20,7 @@ import java.util.Vector;
 
 import static com.example.simplepaint.MainActivity.current_shape;
 import static com.example.simplepaint.MainActivity.paint;
+import static com.example.simplepaint.MainActivity.txt;
 
 public class DrawingView extends View {
     Vector<Pair<Integer, Vector<Object>>> shapes = new Vector<>();
@@ -59,6 +60,12 @@ public class DrawingView extends View {
                         p.setColor((Integer) pair.second.get(4));
                         canvas.drawRect((int) pair.second.get(0), (int) pair.second.get(1), (int) pair.second.get(2), (int) pair.second.get(3), p);
                         break;
+                    }
+                    case 4:{
+                        Paint p = new Paint();
+                        p.setColor((Integer) pair.second.get(3));
+                        p.setTextSize(60);
+                        canvas.drawText(pair.second.get(0).toString(), (int)pair.second.get(1), (int)pair.second.get(2), p);
                     }
                 }
             }
@@ -174,6 +181,18 @@ public class DrawingView extends View {
                         return false;
                     }
                 }
+            }
+            case 4:{
+                begin.x = (int)event.getX();
+                begin.y = (int)event.getY();
+                Vector<Object> points = new Vector<>();
+                points.add(txt);
+                points.add(begin.x);
+                points.add(begin.y);
+                points.add(paint.getColor());
+                shapes.add(new Pair<>(4, points));
+                txt = "";
+                invalidate();
             }
             default:
                 return false;

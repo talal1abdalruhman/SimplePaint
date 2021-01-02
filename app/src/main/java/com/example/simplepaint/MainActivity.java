@@ -3,6 +3,9 @@ package com.example.simplepaint;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,7 +16,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -28,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static Paint paint = new Paint();
     public static int current_shape = 1;
-    ImageButton pencil, circle, rectangle, red, green, blue, yellow, cyan, purple;
+    public static String txt;
+    ImageButton pencil, circle, rectangle, text, red, green, blue, yellow, cyan, purple;
     DrawingView canvas;
 
     @Override
@@ -43,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         pencil = findViewById(R.id.pencil);
         circle = findViewById(R.id.circle);
         rectangle = findViewById(R.id.rectangle);
+        text = findViewById(R.id.text);
         red = findViewById(R.id.red);
         green = findViewById(R.id.green);
         blue = findViewById(R.id.blue);
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 pencil.setBackground(getDrawable(R.drawable.color_bg));
                 circle.setBackground(getDrawable(R.drawable.color_bg));
                 rectangle.setBackground(getDrawable(R.drawable.shape_selected));
+                text.setBackground(getDrawable(R.drawable.color_bg));
                 current_shape = 3;
                 break;
             }
@@ -67,13 +76,24 @@ public class MainActivity extends AppCompatActivity {
                 pencil.setBackground(getDrawable(R.drawable.color_bg));
                 circle.setBackground(getDrawable(R.drawable.shape_selected));
                 rectangle.setBackground(getDrawable(R.drawable.color_bg));
+                text.setBackground(getDrawable(R.drawable.color_bg));
                 current_shape = 2;
+                break;
+            }
+            case R.id.text: {
+                pencil.setBackground(getDrawable(R.drawable.color_bg));
+                circle.setBackground(getDrawable(R.drawable.color_bg));
+                rectangle.setBackground(getDrawable(R.drawable.color_bg));
+                text.setBackground(getDrawable(R.drawable.shape_selected));
+                current_shape = 4;
+                showDialog();
                 break;
             }
             default: {
                 pencil.setBackground(getDrawable(R.drawable.shape_selected));
                 circle.setBackground(getDrawable(R.drawable.color_bg));
                 rectangle.setBackground(getDrawable(R.drawable.color_bg));
+                text.setBackground(getDrawable(R.drawable.color_bg));
                 current_shape = 1;
             }
         }
@@ -189,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println(success + "folder");
 
-        File file = new File(this.getFilesDir() + "/sample"+new Date().getTime()+".png");
+        File file = new File(this.getFilesDir() + "/sample" + new Date().getTime() + ".png");
         Log.d("save", file.getPath());
         if (!file.exists()) {
             try {
@@ -226,10 +246,30 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             Log.d("save", e.getMessage());
             Toast.makeText(getApplicationContext(), "File error", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "IO error", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Text");
+        final View customLayout = getLayoutInflater().inflate(R.layout.text_dialog, null);
+        builder.setView(customLayout);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText editText = customLayout.findViewById(R.id.editText);
+                txt = editText.getText().toString();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
