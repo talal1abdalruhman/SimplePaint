@@ -3,17 +3,29 @@ package com.example.simplepaint;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
-    
+
     public static Paint paint = new Paint();
     public static int current_shape = 1;
     ImageButton pencil, circle, rectangle, red, green, blue, yellow, cyan, purple;
@@ -165,5 +177,59 @@ public class MainActivity extends AppCompatActivity {
 
     public void Erase(View view) {
         canvas.Clear();
+    }
+
+    public void Save(View view) {
+
+        File folder = new File(Environment.getExternalStorageDirectory().toString());
+        boolean success = false;
+        if (!folder.exists()) {
+            success = folder.mkdirs();
+        }
+
+        System.out.println(success + "folder");
+
+        File file = new File(this.getFilesDir() + "/sample"+new Date().getTime()+".png");
+        Log.d("save", file.getPath());
+        if (!file.exists()) {
+            try {
+                success = file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        FileOutputStream ostream = null;
+        try {
+            ostream = new FileOutputStream(file);
+
+            View targetView = canvas;
+
+            Bitmap well = canvas.getBitmap();
+            Bitmap save = Bitmap.createBitmap(320, 480, Bitmap.Config.ARGB_8888);
+            Paint paint = new Paint();
+            paint.setColor(Color.WHITE);
+            Canvas now = new Canvas(save);
+            now.drawRect(new Rect(0, 0, 320, 480), paint);
+            now.drawBitmap(well, new Rect(0, 0, well.getWidth(), well.getHeight()), new Rect(0, 0, 320, 480), null);
+
+            if (save == null) {
+                System.out.println("NULL bitmap save\n");
+            }
+            save.compress(Bitmap.CompressFormat.PNG, 100, ostream);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Null error", Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.d("save", e.getMessage());
+            Toast.makeText(getApplicationContext(), "File error", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "IO error", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

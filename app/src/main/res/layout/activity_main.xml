@@ -71,6 +71,18 @@
             android:src="@drawable/icons8_rectangle_50"
             app:layout_constraintStart_toEndOf="@+id/circle"
             app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="save"
+            android:textColor="@color/black"
+            android:backgroundTint="#aaaaaa"
+            android:onClick="Save"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/rectangle"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageButton
             android:id="@+id/eraser"

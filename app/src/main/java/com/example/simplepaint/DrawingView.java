@@ -1,6 +1,7 @@
 package com.example.simplepaint;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -197,6 +198,14 @@ public class DrawingView extends View {
     private void touchUp() {
         mPath.lineTo(mX, mY);
         paths.add(new Pair<>(mPath, paint.getColor()));
+    }
+
+    public Bitmap getBitmap() {
+        this.setDrawingCacheEnabled(true);
+        this.buildDrawingCache();
+        Bitmap bmp = Bitmap.createBitmap(this.getDrawingCache());
+        this.setDrawingCacheEnabled(false);
+        return bmp;
     }
 
     public void Clear() {
